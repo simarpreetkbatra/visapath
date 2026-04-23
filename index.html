@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VisaPath · ਵੀਜ਼ਾ ਰਾਹ — Free Canada PR Intelligence</title>
+<meta name="description" content="Free Canada immigration tool. Calculate your CRS score, optimize your profile, compare all PR pathways with wait times, costs and documents. Available in English and Punjabi.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Noto+Sans+Gurmukhi:wght@400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+/* ─── RESET & ROOT ─── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --red:#C8102E;--red2:#9e0b24;--red-soft:#fff0f3;
+  --ink:#07111D;--ink2:#122035;
+  --slate:#3D4F6A;--muted:#6B7D99;--faint:#9AAFC8;
+  --bd:#E2EAF4;--bd2:#C5D1E6;
+  --surf:#F2F5FB;--white:#FFFFFF;
+  --teal:#0C7873;--teal-bg:#EBF8F7;
+  --green:#1A7F5A;--green-bg:#EBF9F3;
+  --gold:#B07818;--gold-bg:#FFF9EB;
+  --r:14px;--rs:8px;
+}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:'DM Sans',sans-serif;background:var(--surf);color:var(--ink);min-height:100vh;overflow-x:hidden;line-height:1.6}
+h1,h2,h3,.display{font-family:'Syne',sans-serif;letter-spacing:-0.5px}
+.pa{font-family:'Noto Sans Gurmukhi','DM Sans',sans-serif}
+code,pre{font-family:'JetBrains Mono',monospace}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:4px}
+a{color:var(--teal)}
+
+/* ─── NAV ─── */
+#nav{background:var(--ink);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 36px;position:sticky;top:0;z-index:300;gap:16px}
+.logo{display:flex;align-items:baseline;gap:9px;flex-shrink:0}
+.logo-en{font-family:'Syne',sans-serif;font-size:21px;font-weight:800;color:#fff;letter-spacing:-0.5px}
+.logo-en span{color:var(--red)}
+.logo-pa{font-family:'Noto Sans Gurmukhi',sans-serif;font-size:13px;color:rgba(255,255,255,0.35)}
+.nav-tabs{display:flex;background:rgba(255,255,255,0.08);border-radius:30px;padding:3px;gap:2px}
+.nt{padding:6px 16px;border-radius:24px;border:none;background:transparent;color:rgba(255,255,255,0.5);font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;white-space:nowrap}
+.nt.on{background:var(--red);color:#fff}
+.nt:hover:not(.on){color:#fff}
+.lang-sw{display:flex;background:rgba(255,255,255,0.1);border-radius:20px;overflow:hidden;flex-shrink:0}
+.lb{padding:5px 13px;font-size:12px;border:none;background:transparent;cursor:pointer;color:rgba(255,255,255,0.45);font-family:'DM Sans',sans-serif;transition:all .15s}
+.lb.on{background:rgba(255,255,255,0.2);color:#fff}
+
+/* ─── SECTION SHELL ─── */
+.sec{display:none;min-height:calc(100vh - 60px)}
+.sec.on{display:block}
+.inner{max-width:1060px;margin:0 auto;padding:36px 28px}
+
+/* ═══════════════════════════════════
+   SECTION 1 – CRS CALCULATOR
+═══════════════════════════════════ */
+.hero-strip{background:linear-gradient(135deg,var(--ink) 0%,var(--ink2) 100%);color:#fff;padding:44px 36px;margin:-36px -28px 36px;position:relative;overflow:hidden}
+.hero-strip::after{content:'🍁';position:absolute;right:36px;top:50%;transform:translateY(-50%);font-size:80px;opacity:0.07;pointer-events:none}
+.hero-strip h1{font-size:clamp(26px,4vw,44px);margin-bottom:8px;line-height:1.1}
+.hero-strip h1 em{color:var(--red);font-style:normal}
+.hero-strip p{font-size:15px;color:rgba(255,255,255,0.5);max-width:480px;font-weight:300}
+.pill-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.pill{font-size:11px;padding:4px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.6)}
+.pill.green{border-color:rgba(26,127,90,0.5);background:rgba(26,127,90,0.15);color:#6ee7b7}
+
+.calc-layout{display:grid;grid-template-columns:1fr 360px;gap:22px;align-items:start}
+.calc-card{background:var(--white);border:1px solid var(--bd);border-radius:var(--r)}
+.ch{padding:14px 22px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:10px;background:var(--surf)}
+.ch-num{width:24px;height:24px;border-radius:50%;background:var(--ink);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ch-title{font-size:13px;font-weight:500;color:var(--ink)}
+.ch-sub{font-size:11px;color:var(--muted)}
+.cf{padding:18px 22px;display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.cf.one{grid-template-columns:1fr}
+.field{display:flex;flex-direction:column;gap:4px}
+.field label{font-size:11px;font-weight:500;color:var(--slate);text-transform:uppercase;letter-spacing:.05em}
+.field select,.field input[type=number]{background:var(--surf);border:1px solid var(--bd2);border-radius:var(--rs);padding:8px 11px;font-family:'DM Sans',sans-serif;font-size:13.5px;color:var(--ink);outline:none;width:100%;-webkit-appearance:none;appearance:none}
+.field select:focus,.field input:focus{border-color:var(--red)}
+.fh{font-size:11px;color:var(--muted)}
+.div{height:1px;background:var(--bd);margin:0 22px}
+.calc-btn{display:block;width:calc(100% - 44px);margin:18px 22px;padding:13px;background:var(--red);color:#fff;border:none;border-radius:var(--rs);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;transition:opacity .15s}
+.calc-btn:hover{opacity:.88}
+
+/* SCORE PANEL */
+.score-sticky{position:sticky;top:76px;display:flex;flex-direction:column;gap:16px}
+.score-card{background:var(--ink);border-radius:var(--r);padding:26px;color:#fff}
+.sc-lbl{font-size:11px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+.sc-big{font-family:'Syne',sans-serif;font-size:76px;font-weight:800;letter-spacing:-4px;line-height:1;color:#fff}
+.sc-max{font-size:13px;color:rgba(255,255,255,0.3);margin-bottom:16px}
+.sc-bar-bg{height:6px;background:rgba(255,255,255,0.1);border-radius:3px;overflow:hidden;margin-bottom:18px}
+.sc-bar{height:6px;background:var(--red);border-radius:3px;transition:width .7s cubic-bezier(.34,1.56,.64,1);width:0%}
+.sc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sc-item{background:rgba(255,255,255,0.06);border-radius:var(--rs);padding:9px 12px}
+.sc-item-lbl{font-size:10px;color:rgba(255,255,255,0.35);margin-bottom:2px}
+.sc-item-val{font-size:20px;font-weight:600}
+
+.cutoffs-card{background:var(--white);border:1px solid var(--bd);border-radius:var(--r);padding:18px}
+.ct-title{font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px}
+.ct-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--bd);font-size:13px}
+.ct-row:last-child{border-bottom:none}
+.ct-name{color:var(--slate)}
+.ct-val{font-weight:600;color:var(--ink);display:flex;align-items:center;gap:6px}
+.gap{font-size:11px;padding:2px 8px;border-radius:20px}
+.gap.g{background:var(--green-bg);color:var(--green)}
+.gap.a{background:var(--gold-bg);color:var(--gold)}
+.gap.r{background:var(--red-soft);color:var(--red)}
+.ct-src{font-size:10px;color:var(--muted);margin-top:10px}
+
+/* ═══════════════════════════════════
+   SECTION 2 – OPTIMIZER
+═══════════════════════════════════ */
+.opt-top{background:var(--white);border:1px solid var(--bd);border-radius:var(--r);padding:22px 26px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.opt-top h2{font-size:24px;margin-bottom:4px}
+.opt-top p{font-size:14px;color:var(--muted)}
+.opt-score{text-align:right}
+.opt-score-num{font-family:'Syne',sans-serif;font-size:52px;font-weight:800;letter-spacing:-2px;color:var(--red);line-height:1}
+.opt-score-lbl{font-size:11px;color:var(--muted)}
+.opt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:16px}
+.opt-card{background:var(--white);border:1px solid var(--bd);border-radius:var(--r);overflow:hidden;transition:box-shadow .2s}
+.opt-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.07)}
+.opt-head{padding:14px 18px;border-bottom:1px solid var(--bd);display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.opt-head-left h4{font-size:14px;font-weight:500;color:var(--ink);margin-bottom:2px}
+.opt-head-left p{font-size:12px;color:var(--muted)}
+.obadge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:500;flex-shrink:0;white-space:nowrap}
+.ob-hi{background:#dcfce7;color:#15803d}
+.ob-me{background:var(--gold-bg);color:var(--gold)}
+.ob-lo{background:var(--red-soft);color:var(--red)}
+.ob-ga{background:#dcfce7;color:#15803d}
+.opt-body{padding:16px 18px}
+.scenarios{display:flex;flex-direction:column;gap:6px}
+.scenario{background:var(--surf);border:1px solid var(--bd);border-radius:var(--rs);padding:9px 12px;display:flex;align-items:center;justify-content:space-between;gap:8px;cursor:pointer;transition:all .15s}
+.scenario:hover{border-color:var(--teal);background:var(--teal-bg)}
+.sc-txt{font-size:12.5px;color:var(--ink);line-height:1.4}
+.sc-eff{font-size:11px;color:var(--muted);margin-top:2px}
+.sc-pts{font-size:14px;font-weight:600;color:var(--green);white-space:nowrap;flex-shrink:0}
+.opt-tip{margin-top:12px;font-size:12px;color:var(--muted);line-height:1.65;padding-top:10px;border-top:1px solid var(--bd)}
+.empty-opt{padding:50px;text-align:center;color:var(--muted);font-size:15px;grid-column:1/-1}
+
+/* ═══════════════════════════════════
+   SECTION 3 – PATHWAYS
+═══════════════════════════════════ */
+.pw-hero{background:var(--ink);color:#fff;border-radius:var(--r);padding:28px 32px;margin-bottom:24px}
+.pw-hero h2{font-size:28px;margin-bottom:6px}
+.pw-hero p{font-size:14px;color:rgba(255,255,255,0.45);max-width:580px;font-weight:300}
+.pw-meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.pw-meta-item{background:rgba(255,255,255,0.08);border-radius:var(--rs);padding:7px 14px}
+.pw-meta-lbl{font-size:10px;color:rgba(255,255,255,0.35)}
+.pw-meta-val{font-size:18px;font-weight:600;color:#fff}
+.pw-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:18px}
+.pw-card{background:var(--white);border:1px solid var(--bd);border-radius:var(--r);overflow:hidden}
+.pw-card.rec{border:2px solid var(--green)}
+.pw-top{padding:18px 20px;border-bottom:1px solid var(--bd)}
+.pw-badge{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:8px}
+.pb-r{background:#dcfce7;color:#15803d}
+.pb-e{background:var(--teal-bg);color:var(--teal)}
+.pb-s{background:var(--gold-bg);color:var(--gold)}
+.pb-n{background:#fee2e2;color:#b91c1c}
+.pw-name{font-size:17px;font-weight:700;margin-bottom:2px}
+.pw-name-pa{font-family:'Noto Sans Gurmukhi',sans-serif;font-size:12px;color:var(--muted);margin-bottom:8px}
+.pw-desc{font-size:13px;color:var(--slate);line-height:1.5}
+.pw-stats{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--bd)}
+.ps{padding:12px 14px;border-right:1px solid var(--bd);text-align:center}
+.ps:last-child{border-right:none}
+.ps-icon{font-size:15px;margin-bottom:3px}
+.ps-val{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:1px}
+.ps-lbl{font-size:10px;color:var(--muted)}
+.tl-bar{height:4px;background:var(--bd);border-radius:2px;overflow:hidden;margin-top:5px}
+.tl-fill{height:4px;background:var(--teal);border-radius:2px}
+.pw-body{padding:16px 20px}
+.psec{margin-bottom:14px}
+.psec-ttl{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px}
+.doc-list{display:flex;flex-direction:column;gap:3px}
+.doc{font-size:12.5px;color:var(--slate);padding-left:14px;position:relative;line-height:1.45}
+.doc::before{content:'';position:absolute;left:2px;top:6px;width:5px;height:5px;border-radius:50%;background:var(--red)}
+.cost-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--bd);font-size:12.5px}
+.cost-row:last-child{border-bottom:none}
+.ci{color:var(--slate)}
+.ca{font-weight:500;color:var(--ink)}
+.cost-total{display:flex;justify-content:space-between;margin-top:8px;padding:8px 12px;background:var(--ink);color:#fff;border-radius:var(--rs);font-size:13px;font-weight:500}
+.src-cite{font-size:11px;color:var(--muted);margin-top:12px;padding-top:10px;border-top:1px solid var(--bd);line-height:1.6}
+
+/* ═══════════════════════════════════
+   SECTION 4 – ASK AI
+═══════════════════════════════════ */
+.ai-layout{display:grid;grid-template-columns:1fr 300px;gap:20px;align-items:start}
+.chat-card{background:var(--white);border:1px solid var(--bd);border-radius:var(--r);overflow:hidden}
+.chat-top{background:var(--ink);padding:14px 18px;display:flex;align-items:center;gap:11px}
+.chat-av{width:34px;height:34px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.chat-top-name{font-size:13.5px;font-weight:500;color:#fff}
+.chat-top-status{font-size:11px;color:rgba(255,255,255,0.4)}
+.chat-msgs{padding:16px;height:420px;overflow-y:auto;display:flex;flex-direction:column;gap:11px}
+.cm{max-width:84%}
+.cm-ai{align-self:flex-start}
+.cm-user{align-self:flex-end}
+.cm-lbl{font-size:11px;color:var(--faint);margin-bottom:3px;padding:0 2px}
+.cm-user .cm-lbl{text-align:right}
+.cb{padding:10px 14px;border-radius:12px;font-size:13.5px;line-height:1.65}
+.cb-ai{background:var(--surf);border:1px solid var(--bd);border-radius:3px 12px 12px 12px}
+.cb-user{background:var(--ink);color:#fff;border-radius:12px 3px 12px 12px}
+.cite{margin-top:8px;padding:6px 10px;background:var(--teal-bg);border-left:3px solid var(--teal);border-radius:0;font-size:11px;color:var(--teal);line-height:1.7}
+.cite a{color:var(--teal);font-weight:500}
+.disc-inline{font-size:11px;color:var(--muted);font-style:italic;margin-top:5px}
+.typing{display:flex;gap:4px;align-items:center;padding:10px 14px;background:var(--surf);border:1px solid var(--bd);border-radius:3px 12px 12px 12px;width:fit-content}
+.typing span{width:6px;height:6px;border-radius:50%;background:var(--faint);animation:bop 1.2s infinite}
+.typing span:nth-child(2){animation-delay:.2s}
+.typing span:nth-child(3){animation-delay:.4s}
+@keyframes bop{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-5px)}}
+.sug-row{padding:10px 16px 8px;display:flex;gap:6px;flex-wrap:wrap;border-top:1px solid var(--bd);background:var(--surf)}
+.sug{font-size:12px;padding:5px 12px;border-radius:20px;border:1px solid var(--bd2);background:var(--white);color:var(--slate);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
+.sug:hover{border-color:var(--ink);color:var(--ink)}
+.chat-inp-row{display:flex;gap:8px;padding:12px 14px;border-top:1px solid var(--bd);align-items:flex-end;background:var(--surf)}
+.chat-inp{flex:1;background:var(--white);border:1px solid var(--bd2);border-radius:var(--rs);padding:9px 12px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--ink);outline:none;resize:none;min-height:40px;max-height:90px}
+.chat-inp:focus{border-color:var(--red)}
+.chat-send{background:var(--red);color:#fff;border:none;border-radius:var(--rs);padding:9px 16px;cursor:pointer;font-size:17px;transition:opacity .15s;flex-shrink:0}
+.chat-send:disabled{opacity:.4;cursor:not-allowed}
+.chat-hint{font-size:11px;color:var(--muted);text-align:center;padding:6px 16px 12px;background:var(--surf);border-top:1px solid var(--bd)}
+
+.ai-sb{display:flex;flex-direction:column;gap:14px}
+.sb-card{background:var(--white);border:1px solid var(--bd);border-radius:var(--r);padding:16px}
+.sb-title{font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:11px}
+.ql{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--bd);font-size:13px;color:var(--ink);cursor:pointer;transition:color .15s}
+.ql:last-child{border-bottom:none}
+.ql:hover{color:var(--red)}
+.ql-arr{color:var(--bd2);font-size:15px}
+.disc-card{background:var(--gold-bg);border:1px solid #FDE68A;border-radius:var(--r);padding:14px}
+.disc-icon{font-size:18px;margin-bottom:6px}
+.disc-title{font-size:13px;font-weight:500;color:var(--gold);margin-bottom:5px}
+.disc-body{font-size:12px;color:#92400e;line-height:1.65}
+.disc-links{margin-top:8px;display:flex;flex-direction:column;gap:4px}
+.disc-links a{font-size:12px;font-weight:500;color:var(--gold)}
+
+/* ─── FOOTER ─── */
+footer{background:var(--ink);padding:26px 36px;color:rgba(255,255,255,0.4)}
+.foot-inner{max-width:1060px;margin:0 auto;display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center}
+.foot-logo{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;color:#fff}
+.foot-logo span{color:var(--red)}
+.foot-links{display:flex;gap:18px}
+.foot-links a{font-size:12px;color:rgba(255,255,255,0.35);text-decoration:none}
+.foot-links a:hover{color:#fff}
+.foot-disc{width:100%;font-size:11px;line-height:1.75;border-top:1px solid rgba(255,255,255,0.07);padding-top:14px;margin-top:6px}
+.foot-disc a{color:rgba(255,255,255,0.4)}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:800px){
+  #nav{padding:0 16px}
+  .nav-tabs{display:none}
+  .inner{padding:20px 16px}
+  .hero-strip{margin:-20px -16px 20px;padding:32px 20px}
+  .calc-layout,.ai-layout{grid-template-columns:1fr}
+  .score-sticky{position:static}
+  .cf{grid-template-columns:1fr}
+  footer{padding:22px 18px}
+}
+</style>
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav id="nav">
+  <div class="logo">
+    <div class="logo-en">Visa<span>Path</span></div>
+    <div class="logo-pa">ਵੀਜ਼ਾ ਰਾਹ</div>
+  </div>
+  <div class="nav-tabs">
+    <button class="nt on" onclick="goSec('calc',this)">CRS Calculator</button>
+    <button class="nt" onclick="goSec('opt',this)">Score Optimizer</button>
+    <button class="nt" onclick="goSec('pw',this)">PR Pathways</button>
+    <button class="nt" onclick="goSec('ai',this)">Ask AI</button>
+  </div>
+  <div class="lang-sw">
+    <button class="lb on" onclick="setLang('en',this)">EN</button>
+    <button class="lb pa" onclick="setLang('pa',this)">ਪੰਜਾਬੀ</button>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════ -->
+<!-- S1: CRS CALCULATOR                 -->
+<!-- ═══════════════════════════════════ -->
+<section class="sec on" id="s-calc">
+<div class="inner">
+
+  <div class="hero-strip">
+    <h1>Calculate your <em>CRS score</em></h1>
+    <p>Fill in your profile — your score calculates live. See exactly where you stand against recent Express Entry draws.</p>
+    <div class="pill-row">
+      <div class="pill green">Updated: April 2025</div>
+      <div class="pill">Source: IRCC Canada.ca</div>
+      <div class="pill">English + ਪੰਜਾਬੀ</div>
+    </div>
+  </div>
+
+  <div class="calc-layout">
+    <div class="calc-card">
+
+      <!-- A -->
+      <div class="ch"><div class="ch-num">A</div><div><div class="ch-title">Core human capital</div><div class="ch-sub">Age, education, language, work experience</div></div></div>
+      <div class="cf">
+        <div class="field"><label>Age</label>
+          <select id="fa" onchange="calc()">
+            <option value="0">Under 18</option><option value="90">18–19</option>
+            <option value="95">20–29</option><option value="100" selected>30–34</option>
+            <option value="95">35</option><option value="90">36</option>
+            <option value="85">37</option><option value="80">38</option>
+            <option value="75">39</option><option value="70">40</option>
+            <option value="60">41</option><option value="50">42</option>
+            <option value="35">43</option><option value="25">44</option>
+            <option value="0">45+</option>
+          </select>
+        </div>
+        <div class="field"><label>Education</label>
+          <select id="fe" onchange="calc()">
+            <option value="0">Less than secondary</option>
+            <option value="28">Secondary diploma (high school)</option>
+            <option value="84">1-year post-secondary certificate</option>
+            <option value="91">2-year post-secondary diploma</option>
+            <option value="112" selected>Bachelor's degree</option>
+            <option value="119">Two or more degrees (one 3+ yrs)</option>
+            <option value="126">Master's / professional degree</option>
+            <option value="140">PhD</option>
+          </select>
+        </div>
+        <div class="field"><label>First language CLB level</label>
+          <select id="fl1" onchange="calc()">
+            <option value="0">CLB 4 or below</option>
+            <option value="6">CLB 5</option><option value="8">CLB 6</option>
+            <option value="16">CLB 7</option><option value="22">CLB 8</option>
+            <option value="29">CLB 9</option><option value="32" selected>CLB 10+</option>
+          </select>
+          <span class="fh">IELTS / CELPIP / TEF / TCF</span>
+        </div>
+        <div class="field"><label>Second language CLB</label>
+          <select id="fl2" onchange="calc()">
+            <option value="0" selected>None / CLB 4 or below</option>
+            <option value="1">CLB 5</option><option value="3">CLB 6</option>
+            <option value="6">CLB 7</option><option value="6">CLB 8+</option>
+          </select>
+          <span class="fh">French (if English is first) or English (if French is first)</span>
+        </div>
+        <div class="field"><label>Canadian work experience</label>
+          <select id="fcw" onchange="calc()">
+            <option value="0" selected>None</option>
+            <option value="40">1 year</option><option value="53">2 years</option>
+            <option value="64">3 years</option><option value="72">4 years</option>
+            <option value="80">5+ years</option>
+          </select>
+          <span class="fh">NOC TEER 0, 1, 2, or 3 only</span>
+        </div>
+        <div class="field"><label>Foreign work experience</label>
+          <select id="ffw" onchange="calc()">
+            <option value="0" selected>None</option>
+            <option value="13">1–2 years</option>
+            <option value="25">3+ years</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="div"></div>
+
+      <!-- B -->
+      <div class="ch"><div class="ch-num">B</div><div><div class="ch-title">Spouse / common-law partner factors</div><div class="ch-sub">Only if applying with a spouse or partner</div></div></div>
+      <div class="cf">
+        <div class="field"><label>Spouse education</label>
+          <select id="fse" onchange="calc()">
+            <option value="0" selected>No spouse / Less than secondary</option>
+            <option value="2">Secondary diploma</option><option value="6">1-year diploma</option>
+            <option value="7">2-year diploma</option><option value="8">Bachelor's</option>
+            <option value="9">Two or more degrees</option><option value="10">Master's / PhD</option>
+          </select>
+        </div>
+        <div class="field"><label>Spouse language (CLB)</label>
+          <select id="fsl" onchange="calc()">
+            <option value="0" selected>None / CLB 4</option>
+            <option value="1">CLB 5</option><option value="3">CLB 6</option>
+            <option value="5">CLB 7</option><option value="5">CLB 8+</option>
+          </select>
+        </div>
+        <div class="field"><label>Spouse Canadian work exp.</label>
+          <select id="fsw2" onchange="calc()">
+            <option value="0" selected>None</option>
+            <option value="5">1 year</option><option value="7">2 years</option>
+            <option value="8">3 years</option><option value="9">4 years</option>
+            <option value="10">5+ years</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="div"></div>
+
+      <!-- C -->
+      <div class="ch"><div class="ch-num">C</div><div><div class="ch-title">Skill transferability</div><div class="ch-sub">Combinations of education, language &amp; experience</div></div></div>
+      <div class="cf">
+        <div class="field"><label>Canadian education?</label>
+          <select id="fce" onchange="calc()">
+            <option value="0" selected>No Canadian education</option>
+            <option value="15">1–2 year Canadian diploma</option>
+            <option value="30">Canadian degree 3+ yrs / Master's / PhD</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="div"></div>
+
+      <!-- D -->
+      <div class="ch"><div class="ch-num">D</div><div><div class="ch-title">Additional points</div><div class="ch-sub">Job offer, provincial nomination, siblings, French</div></div></div>
+      <div class="cf">
+        <div class="field"><label>Provincial nomination (PNP)?</label>
+          <select id="fpnp" onchange="calc()">
+            <option value="0" selected>No nomination</option>
+            <option value="600">Yes — +600 points!</option>
+          </select>
+        </div>
+        <div class="field"><label>Qualifying job offer?</label>
+          <select id="fjob" onchange="calc()">
+            <option value="0" selected>No job offer</option>
+            <option value="200">Yes — NOC TEER 0 (senior mgmt)</option>
+            <option value="50">Yes — NOC TEER 1 / 2 / 3</option>
+          </select>
+        </div>
+        <div class="field"><label>Canadian sibling (citizen/PR)?</label>
+          <select id="fsib" onchange="calc()">
+            <option value="0" selected>No</option>
+            <option value="15">Yes — +15 points</option>
+          </select>
+        </div>
+        <div class="field"><label>French language (NCLC 7+)?</label>
+          <select id="ffr" onchange="calc()">
+            <option value="0" selected>No French qualification</option>
+            <option value="25">French only — no strong English</option>
+            <option value="50">French + English CLB 5+ (both)</option>
+          </select>
+        </div>
+        <div class="field"><label>Canadian Master's or PhD?</label>
+          <select id="fphd" onchange="calc()">
+            <option value="0" selected>No</option>
+            <option value="30">Yes — +30 points</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="calc-btn" onclick="calc();goSec('opt',document.querySelectorAll('.nt')[1])">
+        Calculate my CRS &amp; open Score Optimizer →
+      </button>
+    </div>
+
+    <!-- SCORE PANEL -->
+    <div class="score-sticky">
+      <div class="score-card">
+        <div class="sc-lbl">Your CRS score</div>
+        <div class="sc-big" id="sc-big">—</div>
+        <div class="sc-max">out of 1,200 total points</div>
+        <div class="sc-bar-bg"><div class="sc-bar" id="sc-bar"></div></div>
+        <div class="sc-grid">
+          <div class="sc-item"><div class="sc-item-lbl">Section A</div><div class="sc-item-val" id="sc-a">—</div></div>
+          <div class="sc-item"><div class="sc-item-lbl">Section B</div><div class="sc-item-val" id="sc-b">—</div></div>
+          <div class="sc-item"><div class="sc-item-lbl">Section C</div><div class="sc-item-val" id="sc-c">—</div></div>
+          <div class="sc-item"><div class="sc-item-lbl">Section D</div><div class="sc-item-val" id="sc-d">—</div></div>
+        </div>
+      </div>
+      <div class="cutoffs-card">
+        <div class="ct-title">Recent draw cutoffs (2024–25)</div>
+        <div class="ct-row"><span class="ct-name">Federal Skilled Worker</span><span class="ct-val">490 <span class="gap r" id="gap-fsw"></span></span></div>
+        <div class="ct-row"><span class="ct-name">Canadian Experience Class</span><span class="ct-val">491 <span class="gap r" id="gap-cec"></span></span></div>
+        <div class="ct-row"><span class="ct-name">PNP draw (with nomination)</span><span class="ct-val">700+ <span class="gap g">+600 bonus</span></span></div>
+        <div class="ct-row"><span class="ct-name">French language draw</span><span class="ct-val">379 <span class="gap g">Easier!</span></span></div>
+        <div class="ct-src">Source: <a href="https://www.canada.ca/en/immigration-refugees-citizenship/services/immigrate-canada/express-entry/submit-profile/rounds-invitations.html" target="_blank">IRCC Draw Results →</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════ -->
+<!-- S2: OPTIMIZER                      -->
+<!-- ═══════════════════════════════════ -->
+<section class="sec" id="s-opt">
+<div class="inner">
+  <div class="opt-top">
+    <div>
+      <h2>Score optimizer</h2>
+      <p>Personalised improvements ranked by impact — based on your CRS profile</p>
+    </div>
+    <div class="opt-score">
+      <div class="opt-score-num" id="opt-num">—</div>
+      <div class="opt-score-lbl">your current score</div>
+    </div>
+  </div>
+  <div class="opt-grid" id="opt-grid">
+    <div class="empty-opt">Complete the CRS Calculator first, then return here for your personalised plan.</div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════ -->
+<!-- S3: PATHWAYS                       -->
+<!-- ═══════════════════════════════════ -->
+<section class="sec" id="s-pw">
+<div class="inner">
+  <div class="pw-hero">
+    <h2>Canada PR pathways</h2>
+    <p>Every route to permanent residence — official wait times, government fees, and required documents sourced from IRCC Canada.ca</p>
+    <div class="pw-meta">
+      <div class="pw-meta-item"><div class="pw-meta-lbl">Your CRS score</div><div class="pw-meta-val" id="pw-score">—</div></div>
+      <div class="pw-meta-item"><div class="pw-meta-lbl">FSW cutoff</div><div class="pw-meta-val">~490</div></div>
+      <div class="pw-meta-item"><div class="pw-meta-lbl">French cutoff</div><div class="pw-meta-val">~379</div></div>
+      <div class="pw-meta-item"><div class="pw-meta-lbl">Pathways shown</div><div class="pw-meta-val">6</div></div>
+    </div>
+  </div>
+  <div class="pw-grid" id="pw-grid"></div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════ -->
+<!-- S4: ASK AI                         -->
+<!-- ═══════════════════════════════════ -->
+<section class="sec" id="s-ai">
+<div class="inner">
+  <div class="ai-layout">
+    <div class="chat-card">
+      <div class="chat-top">
+        <div class="chat-av">🍁</div>
+        <div>
+          <div class="chat-top-name">VisaPath AI — Canada Immigration</div>
+          <div class="chat-top-status">● IRCC-sourced · Citations on every answer · English + ਪੰਜਾਬੀ</div>
+        </div>
+      </div>
+      <div class="chat-msgs" id="chat-msgs">
+        <div class="cm cm-ai">
+          <div class="cm-lbl">VisaPath AI</div>
+          <div class="cb cb-ai">
+            Hi! Ask me anything about Canada immigration — in English or Punjabi.<br><br>
+            Every answer cites the official IRCC source so you can verify. I'm an information tool — for personal cases always consult a licensed
+            <a href="https://college-ic.ca" target="_blank">RCIC consultant</a>.
+            <div class="cite">Source: <a href="https://www.canada.ca/en/immigration-refugees-citizenship.html" target="_blank">IRCC Canada.ca</a> · <a href="https://college-ic.ca" target="_blank">Find a licensed RCIC →</a></div>
+          </div>
+        </div>
+      </div>
+      <div class="sug-row" id="sug-row">
+        <button class="sug" onclick="sendSug(this)">What is Express Entry?</button>
+        <button class="sug" onclick="sendSug(this)">How long does PR take?</button>
+        <button class="sug" onclick="sendSug(this)">PNP vs Express Entry</button>
+        <button class="sug" onclick="sendSug(this)">ਐਕਸਪ੍ਰੈਸ ਐਂਟਰੀ ਕੀ ਹੈ?</button>
+        <button class="sug" onclick="sendSug(this)">Can I work while waiting for PR?</button>
+      </div>
+      <div class="chat-inp-row">
+        <textarea class="chat-inp" id="chat-inp" placeholder="Ask about Express Entry, study permits, PNP, LMIA..." rows="1" onkeydown="chatKey(event)" oninput="chatResize(this)"></textarea>
+        <button class="chat-send" id="chat-send" onclick="chatSend()">→</button>
+      </div>
+      <div class="chat-hint pa">ਪੰਜਾਬੀ ਵਿੱਚ ਵੀ ਪੁੱਛ ਸਕਦੇ ਹੋ &nbsp;·&nbsp; You can ask in Punjabi too</div>
+    </div>
+
+    <div class="ai-sb">
+      <div class="sb-card">
+        <div class="sb-title">Quick topics</div>
+        <div class="ql" onclick="loadQ('What documents do I need for Express Entry FSW?')">Express Entry documents <span class="ql-arr">›</span></div>
+        <div class="ql" onclick="loadQ('What are the current Express Entry CRS cutoffs?')">Current draw cutoffs <span class="ql-arr">›</span></div>
+        <div class="ql" onclick="loadQ('How does the Provincial Nominee Program work?')">Provincial Nominee Program <span class="ql-arr">›</span></div>
+        <div class="ql" onclick="loadQ('How can I improve my IELTS to boost my CRS?')">Improve language score <span class="ql-arr">›</span></div>
+        <div class="ql" onclick="loadQ('What is LMIA and how do I get a job offer for PR?')">LMIA &amp; job offers <span class="ql-arr">›</span></div>
+        <div class="ql" onclick="loadQ('How long does spousal sponsorship take in Canada?')">Spousal sponsorship <span class="ql-arr">›</span></div>
+        <div class="ql" onclick="loadQ('ਕੈਨੇਡਾ ਵਿੱਚ ਸਟੱਡੀ ਪਰਮਿਟ ਕਿਵੇਂ ਮਿਲਦਾ ਹੈ?')">ਸਟੱਡੀ ਪਰਮਿਟ (Punjabi) <span class="ql-arr">›</span></div>
+      </div>
+      <div class="disc-card">
+        <div class="disc-icon">⚠️</div>
+        <div class="disc-title">Information only — not legal advice</div>
+        <div class="disc-body">VisaPath sources answers from IRCC Canada.ca. Immigration rules change frequently. Always verify at the official source before acting.</div>
+        <div class="disc-links">
+          <a href="https://college-ic.ca" target="_blank">Find a licensed RCIC consultant →</a>
+          <a href="https://www.canada.ca/en/immigration-refugees-citizenship.html" target="_blank">Verify at IRCC Canada.ca →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<footer>
+  <div class="foot-inner">
+    <div class="foot-logo">Visa<span>Path</span> &nbsp;<span class="pa" style="font-size:14px;font-weight:400;color:rgba(255,255,255,0.3)">ਵੀਜ਼ਾ ਰਾਹ</span></div>
+    <div class="foot-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Use</a>
+      <a href="https://college-ic.ca" target="_blank">Find an RCIC</a>
+      <a href="https://www.canada.ca/en/immigration-refugees-citizenship.html" target="_blank">IRCC Official</a>
+    </div>
+    <div class="foot-disc">
+      ⚠️ VisaPath provides general immigration information only — not legal or immigration advice. CRS scores shown are estimates; official calculation is performed by IRCC.
+      All fees, timelines and requirements sourced from publicly available IRCC / Canada.ca resources and must be independently verified before any application.
+      For personal advice consult a Regulated Canadian Immigration Consultant (RCIC) at <a href="https://college-ic.ca" target="_blank">college-ic.ca</a>.
+      Always confirm current requirements at <a href="https://www.canada.ca/en/immigration-refugees-citizenship.html" target="_blank">canada.ca/immigration</a>.
+      Built in Nova Scotia, Canada. &nbsp;·&nbsp; VisaPath 2025 &nbsp;·&nbsp; Free to use forever
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ─────────────────────────────────────────
+   CONFIG — paste your Anthropic API key here
+   ─────────────────────────────────────────
+   Get a free key at: https://console.anthropic.com
+   Replace YOUR_API_KEY_HERE below
+   ───────────────────────────────────────── */
+const API_KEY = 'YOUR_API_KEY_HERE';
+
+/* ─── NAV ─── */
+function goSec(id, btn) {
+  document.querySelectorAll('.sec').forEach(s => s.classList.remove('on'));
+  document.querySelectorAll('.nt').forEach(t => t.classList.remove('on'));
+  document.getElementById('s-' + id).classList.add('on');
+  if (btn) btn.classList.add('on');
+  window.scrollTo(0, 0);
+}
+let lang = 'en';
+function setLang(l, btn) {
+  lang = l;
+  document.querySelectorAll('.lb').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+}
+
+/* ─── CRS CALCULATOR ─── */
+let CRS = 0, sA = 0, sB = 0, sC = 0, sD = 0;
+
+function v(id) { return +document.getElementById(id).value; }
+
+function calc() {
+  const age=v('fa'), edu=v('fe'), l1=v('fl1'), l2=v('fl2');
+  const cw=v('fcw'), fw=v('ffw'), spE=v('fse'), spL=v('fsl'), spW=v('fsw2');
+  const canEdu=v('fce'), pnp=v('fpnp'), job=v('fjob'), sib=v('fsib');
+  const fr=v('ffr'), phd=v('fphd');
+
+  let tEL=0,tEW=0,tWL=0,tWW=0;
+  if(edu>=112&&l1>=22)tEL=50; else if(edu>=84&&l1>=22)tEL=25;
+  if(edu>=112&&cw>=40)tEW=50; else if(edu>=84&&cw>=40)tEW=25;
+  if(fw>=13&&l1>=22)tWL=50; else if(fw>=13&&l1>=16)tWL=25;
+  if(fw>=13&&cw>=40)tWW=50; else if(fw>=13)tWW=13;
+
+  sA = age + edu + l1*4 + l2 + cw + fw;
+  sB = spE + spL + spW;
+  sC = Math.min(100, tEL+tEW+tWL+tWW+canEdu);
+  sD = pnp + job + sib + fr + phd;
+  CRS = sA + sB + sC + sD;
+
+  document.getElementById('sc-big').textContent = CRS;
+  document.getElementById('sc-bar').style.width = Math.min(100,(CRS/1200)*100)+'%';
+  document.getElementById('sc-a').textContent = sA;
+  document.getElementById('sc-b').textContent = sB;
+  document.getElementById('sc-c').textContent = sC;
+  document.getElementById('sc-d').textContent = sD;
+  document.getElementById('opt-num').textContent = CRS;
+  document.getElementById('pw-score').textContent = CRS;
+
+  [['gap-fsw',490],['gap-cec',491]].forEach(([id,cut])=>{
+    const el=document.getElementById(id), d=CRS-cut;
+    if(d>=0){el.textContent='+'+d;el.className='gap g';}
+    else if(d>=-30){el.textContent=d;el.className='gap a';}
+    else{el.textContent=d;el.className='gap r';}
+  });
+
+  buildOpt();
+  buildPW();
+}
+
+/* ─── OPTIMIZER ─── */
+function buildOpt() {
+  const l1=v('fl1'),l2=v('fl2'),cw=v('fcw'),fw=v('ffw'),edu=v('fe');
+  const pnp=v('fpnp'),job=v('fjob'),fr=v('ffr'),sib=v('fsib');
+  const opts=[];
+
+  if(l1<32) opts.push({
+    title:'Improve language score (IELTS / CELPIP)',
+    cur:'Current CLB: '+({0:'≤4',6:'5',8:'6',16:'7',22:'8',29:'9',32:'10+'}[l1]||'?'),
+    badge:'ob-hi',bt:(32-l1)*4>30?'High impact':'Medium impact',
+    sc:[
+      {t:'Improve to CLB 9 (IELTS 7.0–7.5 each band)',p:'+'+Math.max(0,(29-l1)*4)+' pts',e:'4–6 months prep · IELTS retake ~$320 CAD'},
+      {t:'Improve to CLB 10+ (IELTS 8.0+ each band)',p:'+'+Math.max(0,(32-l1)*4)+' pts',e:'6–12 months intensive · Biggest single ROI action'},
+    ],
+    tip:'Language is the highest-ROI CRS improvement. Each CLB level gained across all 4 skills (R/W/L/S) adds points in Section A AND unlocks skill transferability bonuses. Source: <a href="https://www.canada.ca/en/immigration-refugees-citizenship/services/immigrate-canada/express-entry/eligibility/criteria-comprehensive-ranking-system/grid.html" target="_blank">IRCC CRS grid →</a>'
+  });
+
+  if(fr===0) opts.push({
+    title:'Learn French to NCLC 7+',
+    cur:'No French qualification claimed',
+    badge:'ob-hi',bt:'Game changer',
+    sc:[
+      {t:'French only (NCLC 7+) — no English requirement',p:'+25 pts',e:'1–2 years study · TEF Canada or TCF Canada exam ~$250'},
+      {t:'French NCLC 7+ AND English CLB 5+',p:'+50 pts',e:'Both exams needed · Highest French bonus available'},
+      {t:'Target French-specific EE draw (cutoff ~379)',p:'Could get ITA now!',e:'French draws run 100+ pts below standard draws'},
+    ],
+    tip:'French is one of the most powerful CRS strategies. Canada\'s francophone immigration targets mean dedicated French draws happen regularly with cutoffs far below general draws. Source: <a href="https://www.canada.ca/en/immigration-refugees-citizenship/services/immigrate-canada/express-entry/submit-profile/rounds-invitations.html" target="_blank">IRCC draw results →</a>'
+  });
+
+  if(pnp===0) opts.push({
+    title:'Get a Provincial Nomination (PNP)',
+    cur:'No nomination — missing 600 free points',
+    badge:'ob-ga',bt:'Instant +600',
+    sc:[
+      {t:'Any provincial nomination via EE-linked stream',p:'+600 pts instantly',e:'Virtually guarantees ITA at next draw · Each province different'},
+      {t:'Ontario OINP — Human Capital Priorities stream',p:'+600 pts',e:'No job offer needed · Based on EE profile · ontario.ca/OINP'},
+      {t:'Nova Scotia Labour Market Priorities',p:'+600 pts',e:'Employer-driven · NSimmigration.ca · Good for Halifax area'},
+    ],
+    tip:'A provincial nomination adds 600 points — more than any other single factor. Research streams for your specific NOC code. Many provinces have streams that don\'t require a job offer. Source: <a href="https://www.canada.ca/en/immigration-refugees-citizenship/services/immigrate-canada/provincial-nominees.html" target="_blank">IRCC PNP overview →</a>'
+  });
+
+  if(cw<80) opts.push({
+    title:'Gain Canadian work experience',
+    cur:'Current: '+(cw===0?'None':{40:'1 yr',53:'2 yrs',64:'3 yrs',72:'4 yrs',80:'5+ yrs'}[cw]||'some')+' Canadian exp.',
+    badge:'ob-hi',bt:'High impact',
+    sc:[
+      {t:'Complete 1 year of Canadian work (NOC TEER 0/1/2/3)',p:'+'+(40-Math.min(cw,40))+' pts (+ transferability bonus)',e:'Requires valid work permit · Opens CEC stream'},
+      {t:'Complete 2 years in Canada',p:'+'+Math.max(0,53-cw)+' pts',e:'CEC draws often have lower cutoffs than FSW'},
+    ],
+    tip:'Canadian work experience is valued far more than equivalent foreign experience — and 1 year in Canada opens the Canadian Experience Class (CEC) stream which has its own draw rounds, often with lower cutoffs. Source: <a href="https://www.canada.ca/en/immigration-refugees-citizenship/services/immigrate-canada/express-entry/eligibility/canadian-experience-class.html" target="_blank">IRCC CEC eligibility →</a>'
+  });
+
+  if(job===0) opts.push({
+    title:'Secure a qualifying Canadian job offer',
+    cur:'No LMIA job offer in your profile',
+    badge:'ob-me',bt:'Medium impact',
+    sc:[
+      {t:'LMIA-exempt offer (intra-company / CUSMA / ICT)',p:'+50 pts',e:'Fastest path · Employer must support your PR'},
+      {t:'LMIA-positive offer (NOC TEER 1/2/3)',p:'+50 pts',e:'Employer needs LMIA: ~2–6 months, ~$1,000 cost to employer'},
+      {t:'Senior management offer (NOC TEER 0)',p:'+200 pts',e:'Rare but transformative · Job Bank Canada lists LMIA-willing employers'},
+    ],
+    tip:'Finding a Canadian employer willing to support your PR application is the hardest part but adds significant points. Use Job Bank Canada, LinkedIn, and Workopolis. Search specifically for "NOC [your code] LMIA Canada." Source: <a href="https://www.canada.ca/en/immigration-refugees-citizenship/services/immigrate-canada/express-entry/documents/offer-employment/lmia-exempt.html" target="_blank">IRCC job offer guide →</a>'
+  });
+
+  if(edu<126) opts.push({
+    title:'Study in Canada (education + PGWP pathway)',
+    cur:'Studying in Canada = education pts + PGWP + CEC pathway',
+    badge:'ob-lo',bt:'Long-term',
+    sc:[
+      {t:'1-year Canadian post-grad diploma',p:'+15 (Canadian edu) + PGWP + CEC path',e:'~$10,000–20,000 tuition · 1 year → 1-yr PGWP'},
+      {t:"Canadian Master's degree",p:"+30 (Canadian edu) + Master's pts + 3-yr PGWP",e:'1.5–2 years · Triple benefit: points + work + PR path'},
+    ],
+    tip:'Studying in Canada gives you 3 things at once: Canadian education bonus points, a Post-Graduation Work Permit (PGWP) to gain Canadian experience, and eventually CEC eligibility. It\'s the most complete PR pathway for younger applicants. Source: <a href="https://www.canada.ca/en/immigration-refugees-citizenship/services/study-canada/work/after-graduation.html" target="_blank">IRCC PGWP guide →</a>'
+  });
+
+  if(sib===0) opts.push({
+    title:'Claim Canadian sibling bonus',
+    cur:'No sibling bonus claimed — may be missing 15 free points',
+    badge:'ob-me',bt:'Free points',
+    sc:[
+      {t:'Have a brother or sister who is a Canadian citizen or PR?',p:'+15 pts — free!',e:'Step-siblings and half-siblings qualify · Just needs documentation'},
+    ],
+    tip:'Many applicants forget this. If you have ANY sibling (including step or half-sibling) who is a Canadian citizen or permanent resident, you get 15 free points. Just document it properly. Source: <a href="https://www.canada.ca/en/immigration-refugees-citizenship/services/immigrate-canada/express-entry/eligibility/criteria-comprehensive-ranking-system/grid.html" target="_blank">IRCC CRS grid →</a>'
+  });
+
+  const g = document.getElementById('opt-grid');
+  if(!opts.length){
+    g.innerHTML='<div class="empty-opt" style="color:var(--green)">Your profile is well-optimised! Score: '+CRS+'. Focus on keeping your Express Entry profile active and current while waiting for a draw.</div>';
+    return;
+  }
+  g.innerHTML=opts.map(o=>`
+    <div class="opt-card">
+      <div class="opt-head">
+        <div class="opt-head-left"><h4>${o.title}</h4><p>${o.cur}</p></div>
+        <span class="obadge ${o.badge}">${o.bt}</span>
+      </div>
+      <div class="opt-body">
+        <div class="scenarios">${o.sc.map(s=>`
+          <div class="scenario">
+            <div><div class="sc-txt">${s.t}</div><div class="sc-eff">${s.e}</div></div>
+            <div class="sc-pts">${s.p}</div>
+          </div>`).join('')}
+        </div>
+        <div class="opt-tip">${o.tip}</div>
+      </div>
+    </div>`).join('');
+}
+
+/* ─── PATHWAYS ─── */
+const PW = [
+  {
+    id:'fsw',name:'Federal Skilled Worker',namePa:'ਫੈਡਰਲ ਸਕਿਲਡ ਵਰਕਰ',
+    desc:'Main Express Entry stream for skilled workers with foreign work experience. Need 1+ year skilled work abroad, CLB 7+, and meet the 67-point FSW eligibility criteria.',
+    min:480,wt:'6–12 months',wp:50,fee:'$1,365 + $515 RPRF',
+    docs:['Valid passport (all pages)','IELTS/CELPIP results (within 2 years)','Educational Credential Assessment (WES, IQAS, etc.)','Employment reference letters (on company letterhead)','Pay stubs / T4s / tax records for work history','Police clearance certificates (each country 6+ months)','Medical exam — IRCC designated physician only','Proof of funds: min. $13,757 CAD (single applicant)','Digital photo — IRCC specifications','Schedule A background form'],
+    costs:[['Application fee (principal applicant)','$1,365 CAD'],['Right of Permanent Residence Fee (RPRF)','$515 CAD'],['Spouse/partner (if applicable)','$1,365 + $515 CAD'],['Child (per child)','$230 CAD'],['Biometrics (principal + family)','$85–$170 CAD'],['Medical exam (approx. per person)','$250–450 CAD'],['Police certificate (per country)','$0–80 CAD'],['ECA — WES or equivalent','$214–265 CAD'],['IELTS exam (if retaking)','$320 CAD']],
+    total:'~$2,800–3,800 CAD (single)',
+    src:'https://www.canada.ca/en/immigration-refugees-citizenship/services/immigrate-canada/express-entry/eligibility/federal-skilled-workers.html',
+    elig:s=>s>=480
+  },
+  {
+    id:'cec',name:'Canadian Experience Class',namePa:'ਕੈਨੇਡੀਅਨ ਅਨੁਭਵ ਕਲਾਸ',
+    desc:'For people already working in Canada with 1+ year of skilled Canadian work experience (NOC TEER 0/1/2/3). No foreign work requirement. Often has lower draw cutoffs than FSW.',
+    min:450,wt:'6–8 months',wp:38,fee:'$1,365 + $515 RPRF',
+    docs:['Valid passport','IELTS/CELPIP results (CLB 7+ for NOC TEER 0/1, CLB 5+ for TEER 2/3)','Canadian T4s and employer reference letters for 1+ year','Record of Employment (ROE)','Police clearance certificates','Medical exam','Digital photo','No ECA required (Canadian work replaces it)'],
+    costs:[['Application fee (principal)','$1,365 CAD'],['Right of Permanent Residence Fee','$515 CAD'],['Biometrics','$85 CAD'],['Medical exam','$250–450 CAD'],['Police certificate (Canada + others)','$0–80 CAD']],
+    total:'~$2,300–2,600 CAD (single)',
+    src:'https://www.canada.ca/en/immigration-refugees-citizenship/services/immigrate-canada/express-entry/eligibility/canadian-experience-class.html',
+    elig:s=>s>=450
+  },
+  {
+    id:'pnp',name:'Provincial Nominee Program (PNP)',namePa:'ਪ੍ਰੋਵਿੰਸ਼ੀਅਲ ਨੋਮੀਨੀ ਪ੍ਰੋਗਰਾਮ',
+    desc:'Each province nominates candidates based on local labour needs. A nomination adds +600 CRS points, virtually guaranteeing an ITA. No minimum CRS — eligibility depends on provincial criteria.',
+    min:0,wt:'12–18 months (incl. province)',wp:72,fee:'Provincial fee + $1,365 federal',
+    docs:['Valid passport','Language test results','Educational Credential Assessment','Employment records and reference letters','Job offer letter (required in most streams)','Province-specific application forms','Proof of intent to settle in nominating province','Police clearances','Medical exam'],
+    costs:[['Provincial nomination fee (varies)','$250–1,500 CAD'],['Federal PR application fee','$1,365 CAD'],['Right of Permanent Residence Fee','$515 CAD'],['Biometrics','$85 CAD'],['Medical exam','$250–450 CAD'],['Police certificates','$0–80 CAD']],
+    total:'~$2,800–4,200 CAD (single)',
+    src:'https://www.canada.ca/en/immigration-refugees-citizenship/services/immigrate-canada/provincial-nominees.html',
+    elig:()=>true
+  },
+  {
+    id:'french',name:'French Language Draw',namePa:'ਫ੍ਰੈਂਚ ਭਾਸ਼ਾ ਡਰਾਅ',
+    desc:'IRCC holds dedicated draws for French-speaking candidates at significantly lower CRS cutoffs (~379 vs ~490 for general draws). If you speak French at NCLC 7+, this is your fastest and easiest pathway.',
+    min:350,wt:'6–10 months',wp:42,fee:'$1,365 + $515 RPRF',
+    docs:['Valid passport','French language test: TEF Canada or TCF Canada (within 2 years)','English test if applicable (IELTS/CELPIP)','Educational Credential Assessment','Work experience documentation','Police clearances','Medical exam'],
+    costs:[['French language test (TEF/TCF)','$250–350 CAD'],['Application fee (principal)','$1,365 CAD'],['Right of Permanent Residence Fee','$515 CAD'],['Biometrics','$85 CAD'],['Medical exam','$250–450 CAD']],
+    total:'~$2,500–2,900 CAD (single)',
+    src:'https://www.canada.ca/en/immigration-refugees-citizenship/services/immigrate-canada/express-entry/submit-profile/rounds-invitations.html',
+    elig:s=>s>=350
+  },
+  {
+    id:'atlantic',name:'Atlantic Immigration Program (AIP)',namePa:'ਅਟਲਾਂਟਿਕ ਇਮੀਗ੍ਰੇਸ਼ਨ ਪ੍ਰੋਗਰਾਮ',
+    desc:'Employer-driven program for Nova Scotia, New Brunswick, PEI, and Newfoundland. No CRS score required. Need a job offer from a designated Atlantic employer. Halifax is a strong hiring market.',
+    min:0,wt:'12–16 months',wp:68,fee:'$1,365 + $515 RPRF',
+    docs:['Job offer from a designated Atlantic employer','Valid passport','Language test (CLB 4+ for most positions)','Educational Credential Assessment','Settlement plan (signed by approved settlement agency)','Police clearances','Medical exam','Proof of qualifications for the specific role'],
+    costs:[['Application fee (principal)','$1,365 CAD'],['Right of Permanent Residence Fee','$515 CAD'],['Biometrics','$85 CAD'],['Medical exam','$250–450 CAD'],['Language test (if needed)','$320 CAD']],
+    total:'~$2,300–2,700 CAD (single)',
+    src:'https://www.canada.ca/en/immigration-refugees-citizenship/services/immigrate-canada/atlantic-immigration.html',
+    elig:()=>true
+  },
+  {
+    id:'rural',name:'Rural & Northern Immigration Pilot',namePa:'ਪੇਂਡੂ ਅਤੇ ਉੱਤਰੀ ਇਮੀਗ੍ਰੇਸ਼ਨ ਪਾਇਲਟ',
+    desc:'For skilled workers willing to settle in specific participating smaller Canadian communities. No minimum CRS. Community-specific job offer required. Check the list of participating communities.',
+    min:0,wt:'12–18 months',wp:75,fee:'$1,365 + $515 RPRF',
+    docs:['Job offer from employer in participating community','Community recommendation letter','Valid passport','Language test (CLB 4–6 depending on NOC code)','Educational Credential Assessment','Proof of intent to settle in the community','Police clearances','Medical exam'],
+    costs:[['Application fee','$1,365 CAD'],['Right of Permanent Residence Fee','$515 CAD'],['Biometrics','$85 CAD'],['Medical exam','$250–450 CAD']],
+    total:'~$2,200–2,500 CAD (single)',
+    src:'https://www.canada.ca/en/immigration-refugees-citizenship/services/immigrate-canada/rural-community-immigration-pilot.html',
+    elig:()=>true
+  }
+];
+
+function buildPW() {
+  const s = CRS;
+  const sorted = [...PW].map(p=>{
+    const e=p.elig(s), r=e&&s>=p.min+20, st=!e&&s>=p.min-60;
+    return{...p,e,r,st};
+  }).sort((a,b)=>{
+    const rank=x=>x.r?0:x.e?1:x.st?2:3;
+    return rank(a)-rank(b);
+  });
+
+  document.getElementById('pw-grid').innerHTML = sorted.map(p=>{
+    const bc=p.r?'pb-r':p.e?'pb-e':p.st?'pb-s':'pb-n';
+    const bt=p.r?'★ Recommended for you':p.e?'✓ Eligible':p.st?'↗ Stretch goal':'✗ Currently ineligible';
+    return`<div class="pw-card ${p.r?'rec':''}">
+      <div class="pw-top">
+        <span class="pw-badge ${bc}">${bt}</span>
+        <div class="pw-name">${p.name}</div>
+        <div class="pw-name-pa pa">${p.namePa}</div>
+        <div class="pw-desc">${p.desc}</div>
+      </div>
+      <div class="pw-stats">
+        <div class="ps"><div class="ps-icon">⏱</div><div class="ps-val">${p.wt}</div><div class="ps-lbl">Processing time</div><div class="tl-bar"><div class="tl-fill" style="width:${p.wp}%"></div></div></div>
+        <div class="ps"><div class="ps-icon">💰</div><div class="ps-val" style="font-size:12px">${p.fee}</div><div class="ps-lbl">Govt. fees</div></div>
+        <div class="ps"><div class="ps-icon">📋</div><div class="ps-val">${p.docs.length}</div><div class="ps-lbl">Documents</div></div>
+      </div>
+      <div class="pw-body">
+        <div class="psec">
+          <div class="psec-ttl">Required documents</div>
+          <div class="doc-list">${p.docs.map(d=>`<div class="doc">${d}</div>`).join('')}</div>
+        </div>
+        <div class="psec">
+          <div class="psec-ttl">Cost breakdown</div>
+          ${p.costs.map(([i,a])=>`<div class="cost-row"><span class="ci">${i}</span><span class="ca">${a}</span></div>`).join('')}
+          <div class="cost-total"><span>Estimated total</span><span>${p.total}</span></div>
+        </div>
+        <div class="src-cite">
+          Source: <a href="${p.src}" target="_blank">IRCC Canada.ca — Official requirements →</a><br>
+          <em>Fees &amp; timelines change. Always verify at canada.ca/immigration before applying.</em>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ─── AI CHAT ─── */
+let chatHistory=[], chatBusy=false;
+function chatResize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,90)+'px';}
+function chatKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();chatSend();}}
+function sendSug(btn){document.getElementById('chat-inp').value=btn.textContent;chatSend();}
+function loadQ(q){goSec('ai',document.querySelectorAll('.nt')[3]);document.getElementById('chat-inp').value=q;chatSend();}
+
+function addMsg(role,html){
+  const c=document.getElementById('chat-msgs');
+  const d=document.createElement('div');
+  d.className='cm cm-'+(role==='user'?'user':'ai');
+  const lbl=role==='user'?(lang==='pa'?'ਤੁਸੀਂ':'You'):'VisaPath AI';
+  d.innerHTML=`<div class="cm-lbl">${lbl}</div><div class="cb cb-${role==='user'?'user':'ai'}">${html}</div>`;
+  c.appendChild(d);c.scrollTop=c.scrollHeight;return d;
+}
+function showTyping(){
+  const c=document.getElementById('chat-msgs');
+  const d=document.createElement('div');
+  d.className='cm cm-ai';d.id='typing';
+  d.innerHTML='<div class="cm-lbl">VisaPath AI</div><div class="typing"><span></span><span></span><span></span></div>';
+  c.appendChild(d);c.scrollTop=c.scrollHeight;
+}
+
+async function chatSend(){
+  const inp=document.getElementById('chat-inp');
+  const q=inp.value.trim();
+  if(!q||chatBusy)return;
+  chatBusy=true;
+  document.getElementById('chat-send').disabled=true;
+  document.getElementById('sug-row').style.display='none';
+  inp.value='';inp.style.height='auto';
+  addMsg('user',q);
+  chatHistory.push({role:'user',content:q});
+  showTyping();
+
+  const sys=`You are VisaPath, a Canada immigration information assistant. The user's current CRS score is ${CRS||'not yet calculated'}.
+
+STRICT RULES:
+1. Answer ONLY about Canadian immigration. Source from official IRCC information only.
+2. Frame every fact as "According to IRCC (canada.ca)..." — never state as personal opinion or fact.
+3. If user writes in Punjabi (Gurmukhi), respond in Punjabi AND include the English below.
+4. Keep answers 150–250 words. Use bullet points for lists.
+5. End EVERY response on its own line with: CITE:[direct IRCC URL]
+6. Complex or personal cases → recommend RCIC at college-ic.ca
+7. Never predict visa outcomes or guarantee approvals.
+8. Date: ${new Date().toLocaleDateString('en-CA')}.
+9. Current approximate EE cutoffs: FSW ~490, CEC ~491, French draws ~379.`;
+
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'x-api-key': API_KEY,
+        'anthropic-version':'2023-06-01',
+        'anthropic-dangerous-direct-browser-access':'true'
+      },
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:sys,messages:chatHistory})
+    });
+    const data=await res.json();
+    let txt=data.content?.[0]?.text||'Sorry, I could not get a response. Please try again.';
+    let citeUrl='https://www.canada.ca/en/immigration-refugees-citizenship.html';
+    const cm=txt.match(/CITE:(https?:\/\/\S+)/);
+    if(cm){citeUrl=cm[1];txt=txt.replace(/CITE:https?:\/\/\S+/g,'').trim();}
+    chatHistory.push({role:'assistant',content:txt});
+    const fmt=txt.replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\*(.*?)\*/g,'<em>$1</em>');
+    const cite=`<div class="cite">Source: <a href="${citeUrl}" target="_blank">IRCC Canada.ca →</a> · <a href="https://college-ic.ca" target="_blank">Find licensed RCIC →</a></div><div class="disc-inline">General information only — not legal advice. Verify at canada.ca/immigration.</div>`;
+    document.getElementById('typing')?.remove();
+    addMsg('ai',fmt+cite);
+  }catch(e){
+    document.getElementById('typing')?.remove();
+    addMsg('ai',lang==='pa'?'ਮੁਆਫ਼ ਕਰਨਾ, ਕੁਝ ਗਲਤੀ ਹੋ ਗਈ। ਕਿਰਪਾ ਕਰਕੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।':'Connection error. Please check your API key in the code, then try again.');
+  }
+  chatBusy=false;
+  document.getElementById('chat-send').disabled=false;
+}
+
+/* ─── INIT ─── */
+calc();
+buildPW();
+</script>
+</body>
+</html>
